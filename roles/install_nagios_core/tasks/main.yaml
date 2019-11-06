@@ -1,0 +1,77 @@
+---
+
+#- name: Download nagioscore.tar.gz
+#  get_url:
+#    url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
+#    dest: /tmp/nagios-4.4.5.tar.gz
+#    mode: '0744'
+
+- name: Download and untar nagios archive
+  unarchive:
+    src: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: Create directory /opt/nagios/
+  file:
+    path: /opt/nagios
+    state: directory
+
+- name: Create nagios group 
+  group:
+    name: nagios
+    system: yes
+
+- name: Create nagios user
+  user:
+    name: nagios
+    group: nagios
+    system: yes
+
+- name: Compile the nagios packages
+  shell: cd /tmp/nagioscore-nagios-4.4.5 && ./configure --prefix=/opt/nagios --with-httpd-conf=/etc/apache2/sites-enabled -with-nagios-user=nagios --with-nagios-group=nagios
+
+- name: run make for nagios install
+  make:
+    chdir: /tmp/nagioscore-nagios-4.4.5/
+    target: all
+
+- user:
+    name: nagios
+    groups: www-data
+    append: yes
+
+- make:
+    chdir: /tmp/nagioscore-nagios-4.4.5/
+    target: install
+
+- make:
+    chdir: /tmp/nagioscore-nagios-4.4.5/
+    target: install-daemoninit
+
+- make:
+    chdir: /tmp/nagioscore-nagios-4.4.5/
+    target: install-commandmode
+
+- make:
+    chdir: /tmp/nagioscore-nagios-4.4.5/
+    target: install-config
+
+- name: install apache
+  make:
+    chdir: /tmp/nagioscore-nagios-4.4.5/
+    target: install-webconf
+
+- name: enabled mod_rewrite
+  apache2_module:
+    name: rewrite
+    state: present
+
+- shell: a2enmod cgi
+
+- name: restart apache2 service
+  systemd:
+    state: restarted
+    name: apache2
+
+

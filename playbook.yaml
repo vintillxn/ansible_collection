@@ -1,0 +1,6 @@
+---
+- hosts: Nagios_Core
+  roles:
+    - install_dependences
+    - install_nagios_core
+
