@@ -1,0 +1,40 @@
+---
+
+- name: Install nagios plugins dependinces
+  apt:
+    pkg:
+    - autoconf
+    - gcc
+    - libc6
+    - libmcrypt-dev 
+    - make
+    - libssl-dev
+    - wget 
+    - bc
+    - gawk
+    - dc
+    - build-essential
+    - snmp
+    - snmp
+    - libnet-snmp-perl
+    - gettext
+
+- name: Download and extract nagios plugins
+  unarchive:
+    src: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.2.1.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: Compile nagios plugins
+  shell: cd /tmp/nagios-plugins-release-2.2.1/ && ./tools/setup
+
+- shell: cd /tmp/nagios-plugins-release-2.2.1/ && ./configure --prefix=/opt/nagios/
+
+- name: Prepare install nagios plugins
+  make:
+    chdir: /tmp/nagios-plugins-release-2.2.1/
+
+- name: Install nagios plugins
+  make:
+    chdir: /tmp/nagios-plugins-release-2.2.1/
+    target: install
