@@ -1,0 +1,53 @@
+---
+
+- name: Test if NagiosCore is installed
+  systemd:
+    state: started
+    name: nagios
+  register: result
+
+- name: Debug
+  debug:
+    var: result.state
+
+- name: Debug2
+  debug:
+    var: groups['ESXi-hosts'][0]
+
+#- name: copy nagios.cfg template
+#  template:
+#    src: template_nagios.cfg.j2
+#    dest: /opt/nagios/etc/nagios.cfg
+#    owner: nagios
+#    group: nagios
+#    force: yes
+#    backup: yes
+
+- name: copy host.cfg template
+  template:
+    src: host.cfg.j2
+    dest: /opt/nagios/Servers/{{ item }}.cfg
+    owner: nagios
+    group: nagios
+    mode: '664'
+  with_items: "{{ groups['ESXi-hosts'] }}"
+
+
+- name: copy host.cfg template
+  template:
+    src: hostgroups.cfg.j2 
+    dest: /opt/nagios/etc/objects/hostgroups.cfg
+    owner: nagios
+    group: nagios
+    mode: '664'
+
+
+#- blockinfile:
+#    path: /opt/nagios/Servers/{{ groups['ESXi-hosts'][0] }}.cfg
+#    block: |
+#      define hostgroup {
+#          hostgroup_name          esx-server
+#          alias                   ESX Servers
+#          members                 {{ item }}
+#      }
+#  with_items: "{{ groups['ESXi-hosts'] }}"

@@ -1,0 +1,22 @@
+define host {
+    use                     esx-server
+    host_name               {{ item }} 
+    alias                   {{ item }}
+    hostgroups              esx-server
+    address                 10.17.46.101
+}
+define service {
+    use                     local-service
+    host_name               {{ item }}
+    service_description     PING
+    check_command           check_ping!100.0,20%!500.0,60%
+}
+define service {
+    use                     local-service           ; Name of service template to use
+    host_name               {{ item }}
+    service_description     SSH
+    check_command           check_ssh
+    notifications_enabled   0
+}
+
+
