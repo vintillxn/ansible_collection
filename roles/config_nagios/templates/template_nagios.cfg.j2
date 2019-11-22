@@ -1,35 +1,32 @@
+log_file={{ nagios_install_path }}var/nagios.log
+cfg_file={{ nagios_install_path }}etc/objects/commands.cfg
+cfg_file={{ nagios_install_path }}etc/objects/contacts.cfg
+cfg_file={{ nagios_install_path }}etc/objects/timeperiods.cfg
+cfg_file={{ nagios_install_path }}etc/objects/templates.cfg
+cfg_file={{ nagios_install_path }}etc/objects/localhost.cfg
 
-cfg_file=/opt/nagios/var/nagios.log
-cfg_file=/opt/nagios/etc/objects/commands.cfg
-cfg_file=/opt/nagios/etc/objects/contacts.cfg
-cfg_file=/opt/nagios/etc/objects/timeperiods.cfg
-cfg_file=/opt/nagios/etc/objects/templates.cfg
-cfg_file=/opt/nagios/etc/objects/localhost.cfg
-cfg_file=/opt/nagios/etc/objects/avintila-esx.cfg
-
-############33
-#cfg_file=/opt/nagios/Servers/host1.cfg
-
-cfg_dir=/opt/nagios/Servers
-cfg_file=/opt/nagios/etc/objects/hostgroups.cfg
+#######
 
 
-###########33
-object_cache_file=/opt/nagios/var/objects.cache
-precached_object_file=/opt/nagios/var/objects.precache
-resource_file=/opt/nagios/etc/resource.cfg
-status_file=/opt/nagios/var/status.dat
+cfg_dir={{ nagios_install_path }}Servers
+cfg_file={{ nagios_install_path }}etc/objects/hostgroups.cfg
+
+#######
+object_cache_file={{ nagios_install_path }}var/objects.cache
+precached_object_file={{ nagios_install_path }}var/objects.precache
+resource_file={{ nagios_install_path }}etc/resource.cfg
+status_file={{ nagios_install_path }}var/status.dat
 status_update_interval=10
 nagios_user=nagios
 nagios_group=nagios
 check_external_commands=1
-command_file=/opt/nagios/var/rw/nagios.cmd
+command_file={{ nagios_install_path }}var/rw/nagios.cmd
 lock_file=/run/nagios.lock
-temp_file=/opt/nagios/var/nagios.tmp
+temp_file={{ nagios_install_path }}var/nagios.tmp
 temp_path=/tmp
 event_broker_options=-1
 log_rotation_method=d
-log_archive_path=/opt/nagios/var/archives
+log_archive_path={{ nagios_install_path }}var/archives
 use_syslog=1
 log_notifications=1
 log_service_retries=1
@@ -47,7 +44,7 @@ max_host_check_spread=30
 max_concurrent_checks=0
 check_result_reaper_frequency=10
 max_check_result_reaper_time=30
-check_result_path=/opt/nagios/var/spool/checkresults
+check_result_path={{ nagios_install_path }}var/spool/checkresults
 max_check_result_file_age=3600
 cached_host_check_horizon=15
 cached_service_check_horizon=15
@@ -65,7 +62,7 @@ ocsp_timeout=5
 ochp_timeout=5
 perfdata_timeout=5
 retain_state_information=1
-state_retention_file=/opt/nagios/var/retention.dat
+state_retention_file={{ nagios_install_path }}var/retention.dat
 retention_update_interval=60
 use_retained_program_state=1
 use_retained_scheduling_info=1
@@ -115,7 +112,6 @@ use_large_installation_tweaks=0
 enable_environment_macros=0
 debug_level=0
 debug_verbosity=1
-debug_file=/opt/nagios/var/nagios.debug
+debug_file={{ nagios_install_path }}var/nagios.debug
 max_debug_file_size=1000000
 allow_empty_hostgroup_assignment=0
-

@@ -1,5 +1,9 @@
+{% for group in groups if not group == 'all' and not group == 'ungrouped' and not group == 'Nagios_Core' %}
 define hostgroup {
-    hostgroup_name          esx-server
-    alias                   ESX Servers
+    hostgroup_name          {{ group }}
+    alias                   {{ group }}
+    members                 {% for host in groups[group] %}{{ host }}{% if not loop.last%},{% endif%}{% endfor %}
+{% raw %}
 }
-
+{% endraw %}
+{% endfor %}

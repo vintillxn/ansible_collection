@@ -1,9 +1,8 @@
 define host {
     use                     esx-server
-    host_name               {{ item }} 
+    host_name               {{ item }}
     alias                   {{ item }}
-    hostgroups              esx-server
-    address                 10.17.46.101
+    address                 {{ hostvars[item]['ansible_ssh_host'] }}
 }
 define service {
     use                     local-service
@@ -18,5 +17,3 @@ define service {
     check_command           check_ssh
     notifications_enabled   0
 }
-
-
