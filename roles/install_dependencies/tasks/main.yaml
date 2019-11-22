@@ -3,7 +3,7 @@
 - name: install dependences for nagios core
   apt:
     pkg:
-    - autoconf 
+    - autoconf
     - gcc
     - libc6
     - make
@@ -11,7 +11,7 @@
     - unzip
     - apache2
     - libapache2-mod-php7.2
-    - php 
+    - php
     - libgd-dev
     - build-essential
-
+    - python-passlib
