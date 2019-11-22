@@ -6,10 +6,10 @@
     - autoconf
     - gcc
     - libc6
-    - libmcrypt-dev 
+    - libmcrypt-dev
     - make
     - libssl-dev
-    - wget 
+    - wget
     - bc
     - gawk
     - dc
@@ -28,7 +28,7 @@
 - name: Compile nagios plugins
   shell: cd /tmp/nagios-plugins-release-2.2.1/ && ./tools/setup
 
-- shell: cd /tmp/nagios-plugins-release-2.2.1/ && ./configure --prefix=/opt/nagios/
+- shell: cd /tmp/nagios-plugins-release-2.2.1/ && ./configure --prefix={{ nagios_install_path }}
 
 - name: Prepare install nagios plugins
   make:
