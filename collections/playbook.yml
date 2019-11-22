@@ -1,0 +1,11 @@
+---
+- hosts: Nagios_Core
+  roles:
+    - install_dependences
+    - install_nagios_core
+    - install_nagios_plugins_ubuntu
+    - config_nagios
+  become: true
+  vars:
+    nagios_install_path: /opt/nagios/
+
