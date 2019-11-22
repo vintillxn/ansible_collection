@@ -32,3 +32,5 @@ The tricky part is for the last role, config_nagios. This one was created to:
   - for each group in ansible inventory file, is creating as well a group in nagios
   - restarts the nagios service in order for the changes to be applied.
 
+
+As it is, you'll notice that for each host will deploy 2 checks: SSH and PING. These are active checks from nagios plugins and for my project those were needed.
