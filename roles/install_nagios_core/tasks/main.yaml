@@ -1,23 +1,16 @@
 ---
-
-#- name: Download nagioscore.tar.gz
-#  get_url:
-#    url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
-#    dest: /tmp/nagios-4.4.5.tar.gz
-#    mode: '0744'
-
 - name: Download and untar nagios archive
   unarchive:
     src: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
     dest: /tmp/
     remote_src: yes
 
-- name: Create directory /opt/nagios/
+- name: Create directory for nagios installation
   file:
-    path: /opt/nagios
+    path: "{{ nagios_install_path }}"
     state: directory
 
-- name: Create nagios group 
+- name: Create nagios group
   group:
     name: nagios
     system: yes
@@ -29,7 +22,7 @@
     system: yes
 
 - name: Compile the nagios packages
-  shell: cd /tmp/nagioscore-nagios-4.4.5 && ./configure --prefix=/opt/nagios --with-httpd-conf=/etc/apache2/sites-enabled -with-nagios-user=nagios --with-nagios-group=nagios
+  shell: cd /tmp/nagioscore-nagios-4.4.5 && ./configure --prefix={{ nagios_install_path }} --with-httpd-conf=/etc/apache2/sites-enabled -with-nagios-user=nagios --with-nagios-group=nagios
 
 - name: run make for nagios install
   make:
@@ -69,9 +62,17 @@
 
 - shell: a2enmod cgi
 
+- htpasswd:
+    path: "{{ nagios_install_path }}/etc/htpasswd.users"
+    name: "{{ nagios_user }}"
+    password: "{{ nagios_password }}"
+    owner: root
+    group: www-data
+    create: yes
+    state: present
+    mode: 0640
+
 - name: restart apache2 service
   systemd:
     state: restarted
     name: apache2
-
-
