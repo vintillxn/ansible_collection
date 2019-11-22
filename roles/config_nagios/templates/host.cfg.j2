@@ -1,5 +1,5 @@
 define host {
-    use                     esx-server
+    use                     on-demand
     host_name               {{ item }}
     alias                   {{ item }}
     address                 {{ hostvars[item]['ansible_ssh_host'] }}
