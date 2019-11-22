@@ -1,0 +1,15 @@
+---
+namespace: vintillxn
+name: vintillxn
+version: 1.0.0
+readme: README.md
+authors:
+  - vintillxn@gmail.com
+description: Nagios and nagios plugins installation and configuration
+license: MIT
+tags:
+  - nagios
+  - monitoring
+  - nagios_for_ubuntu
+dependencies:
+documentation: https://github.com/vintillxn/nagios_core
